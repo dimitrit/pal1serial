@@ -1,0 +1,20 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[lmargin=142pt,rmargin=95pt,tmargin=127pt,bmargin=123pt]{geometry}
+\usepackage[table]{xcolor}
+\usepackage{csvsimple}
+\usepackage{caption}
+\newcommand{\chapter}{\section*}
+\captionsetup[table]{labelformat=empty}
+\begin{document}
+\chapter{Bill of Materials}
+\label{sec:bom}
+\begin{table}[htb]
+\csvreader[head to column names,
+	tabular={| c | c | c | p{7cm} |},
+	table head=\hline\rowcolor{gray!20}\textbf{Part} & \textbf{Qty} & \textbf{Value} & \textbf{Description}\\\hline,
+	late after last line=\\\hline]{serial-bom-1.0a.csv}{}
+	{\ref&\qty&\val&\component}  
+\caption{PAL-1 Serial Interface Adapter v1.0A components}
+\label{tab:bom}  
+\end{table}
+\end{document} 

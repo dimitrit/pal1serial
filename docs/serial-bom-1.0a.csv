@@ -1,0 +1,20 @@
+ref,qty,val,component
+{C1 - C6},6,0.1uF,Unpolarized capacitor
+C7,1,33pF,Unpolarized capacitor
+C8,1,100pF,Unpolarized capacitor
+{C9 - C12},4,1.0uF,Polarized capacitor
+{D1 - D5},5,1N4148,{Standard switching diode, DO-35}
+J1,1,,{Connector, double row, 02x20}
+J2,1,,{Connector RS232 D-SUB Male 9-pins}
+J3,1,,{Connector, single row, 01x06}
+JP1,1,,{Jumper, 3-pole, pins 1+2 closed/bridged}
+JP2,1,,{Jumper, 2-pole, open}
+{JP3, JP4},2,,{Jumper, 3-pole, pins 1+2 closed/bridged}
+R1,1,1M,Resistor
+R2,1,10K,Resistor
+U1,1,74LS30,{8-input NAND gate}
+{U2, U3},2,74LS02,{Quad 2-input NOR gate}
+U4,1,MC6850,{Asynchronous Communications Interface Adapter 1MHz}
+U5,1,CD4060BE,{14-stage binary counter/oscillator}
+U6,1,MAX232,{Dual RS232 driver/receiver}
+Y1,1,4.0Mhz,Two pin crystal
