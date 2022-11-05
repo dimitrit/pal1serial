@@ -1,8 +1,6 @@
 # PAL-1 Serial Interface Adapter
 
-The PAL-1 Serial Interface Adapter is an expansion board for the PAL-1 system<sup>1</sup>, 
-based on the Motorola MC6850 Asynchronous Communications Interface Adapter (ACIA<sup>2</sup> 
-and is based on a homebrew project in CPC Schneider International magazine<sup>3</sup>. 
+The PAL-1 Serial Interface Adapter is an expansion module for the PAL-1 system<sup>1</sup> based on the Motorola MC6850 Asynchronous Communications Interface Adapter (ACIA)<sup>2</sup>. The design borrows significantly from a homebrew project in CPC Schneider International magazine<sup>3</sup>.
 
 ## Acknowledgements
 
