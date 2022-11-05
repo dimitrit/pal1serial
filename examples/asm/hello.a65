@@ -1,0 +1,34 @@
+
+serio 		= $16e8		; MC6850 base i/o address
+outch		= $1ea0		; print ASCII char in A on tty
+
+		* = $60
+
+textptr		.word message	; pointer to text to be sent
+
+		* = $200
+
+		cld		; binary mode
+		lda #%011	; reset MC6850 ACIA
+		sta serio
+		lda #%010100	; set to 38400,8,N,1
+		sta serio
+initptr		ldy #0		; initialise pointer
+		
+waitsnd		lda serio	; get status
+		and #%010	; is transmit buffer empty?
+		beq waitsnd	; no, wait longer
+
+		lda (textptr),y	; get next character
+		beq initptr	; null, so start again
+		sta serio+1	; write character to buffer
+		iny		; increase pointer
+		jmp waitsnd	; and go round
+
+		.align $100	; align to next page boundary
+
+		.enc "screen"	; use ascii encoding
+
+message		.text "HELLO FROM PAL-1 ",0
+
+		.end
