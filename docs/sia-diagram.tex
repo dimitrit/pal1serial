@@ -1,19 +1,12 @@
 \documentclass[a4paper,11pt]{article}
-\usepackage[lmargin=142pt,rmargin=95pt,tmargin=127pt,bmargin=123pt]{geometry}
 \usepackage{xcolor}
 \usepackage{tikz}
 \usetikzlibrary{shapes.arrows,arrows.meta}
-\usepackage{caption}
-\newcommand{\chapter}{\section*}
-\captionsetup[table]{labelformat=empty}
 \begin{document}
-\chapter{PAL-1 Serial Interface Adapter Block Diagram}
-\label{sec:blockdiagram}
 \begin{figure}[h!]
   \begin{center}
   \scalebox{0.2}{
     \begin{tikzpicture}[font=\sffamily,rotate=90,transform shape]
-
     	\draw (20, 10) rectangle ++(10,10) node[pos=.5,scale=4,text width=2cm,align=center] {Receive Data Register};	
     	\draw (20, 23) rectangle ++(10,10) node[pos=.5,scale=4,text width=2cm,align=center] {Control Register};	
     	\draw (20, 37) rectangle ++(10,10) node[pos=.5,scale=4,text width=2cm,align=center] {Status Register};
@@ -107,9 +100,9 @@
     \end{tikzpicture}
     }
     \caption{PAL-1 Serial Interface Adapter block diagram.}
+    \label{sec:blockdiagram}
   \end{center}
 \end{figure}
-
 \end{document} 
 
 
