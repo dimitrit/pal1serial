@@ -5924,8 +5924,17 @@
   (gr_text "Plastic Objects Limited 2022\nRev 1.0A" (at 170.7642 124.5616 270) (layer "B.SilkS") (tstamp 5bb3d2fc-4b6e-4220-b2cc-8e655e49014f)
     (effects (font (size 1.27 1.27) (thickness 0.254)) (justify left mirror))
   )
-  (gr_text "PAL-1 logo used with kind\npermission of Liu Ganning" (at 144.6022 102.362 270) (layer "B.SilkS") (tstamp 78b09d67-5b37-4fe3-934d-eddecac808fd)
+  (gr_text "PAL-1 logo used with kind\npermission of Liu Ganning" (at 162.7124 95.5548 270) (layer "B.SilkS") (tstamp 78b09d67-5b37-4fe3-934d-eddecac808fd)
     (effects (font (size 1.016 1.016) (thickness 0.254)) (justify left mirror))
+  )
+  (gr_text "Clk_Config [J2]" (at 153.3476 102.056495 270) (layer "B.SilkS") (tstamp b90f2dfd-9639-4bac-9825-9f33089900c6)
+    (effects (font (size 1 1) (thickness 0.15)) (justify left mirror))
+  )
+  (gr_text "1 2 3 4 5 6 7 8 9\n~{- - x - x x - - x}\n- x - x x - - x -\nx - x x - - x - -" (at 148.6916 87.8586 270) (layer "B.SilkS") (tstamp f1cdc1e3-579a-49cb-b214-bbcfabf1e8e7)
+    (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
+  )
+  (gr_text "9600:\n19200:\n38400:" (at 147.8866 96.4184 270) (layer "B.SilkS") (tstamp f5085a91-2c3d-4f5c-900f-9ea6af63a392)
+    (effects (font (size 1 1) (thickness 0.15)) (justify right mirror))
   )
   (gr_text "MAX232" (at 162.56 84.8106 270) (layer "F.SilkS") (tstamp 07e46668-402e-4bdf-8347-240a4ebe47d7)
     (effects (font (size 1 1) (thickness 0.2)))
@@ -24170,6 +24179,12 @@
       f1063307-cbb0-46b3-af4f-7e3d2055e73f
     )
   )
+  (group "" (id be7fa36e-76d0-45aa-8e70-7b6a33824775)
+    (members
+      b90f2dfd-9639-4bac-9825-9f33089900c6
+      ddbf1831-bd5c-4862-80a4-a697cd270798
+    )
+  )
   (group "" (id d61ebff9-2162-495b-9d27-506fd4e99b7a)
     (members
       587be2f0-3b34-4b31-aaa9-c0ae4464d698
@@ -24182,6 +24197,12 @@
       218cfae5-1c94-409c-8c68-3503f1ff135f
       77f9c70a-7435-4c3e-a029-e98314e2d3ec
       dbacd3da-a9ac-4ab9-bd84-a4345ea1da8e
+    )
+  )
+  (group "" (id ddbf1831-bd5c-4862-80a4-a697cd270798)
+    (members
+      f1cdc1e3-579a-49cb-b214-bbcfabf1e8e7
+      f5085a91-2c3d-4f5c-900f-9ea6af63a392
     )
   )
 )
