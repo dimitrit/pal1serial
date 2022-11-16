@@ -40,6 +40,9 @@ fp-info-cache
 *.fot
 *.cb
 *.cb2
+*.bbl
+*.blg
+*.url
 .*.lb
 
 ## Build tool auxiliary files:
