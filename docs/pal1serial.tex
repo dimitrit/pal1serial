@@ -21,13 +21,14 @@
 \usepackage[hidelinks]{hyperref}
 %\usepackage{inconsolata}
 \usepackage{tikz}
-\usetikzlibrary{shapes.arrows,arrows.meta}
+\usepackage{tkz-euclide}
+\usetikzlibrary{intersections,shapes.arrows,arrows.meta}
 \lstset{aboveskip=18pt,belowskip=18pt}
 \tcbset{colframe=blue!50!black,colback=blue!20}
 \hypersetup{
 %   colorlinks=false,
 %    linkcolor=blue,
-%    filecolor=magenta,      
+%    filecolor=magenta,
 %    urlcolor=cyan,
     pdftitle={PAL-1 Serial Interface},
     pdfpagemode=UseThumbs,
@@ -48,7 +49,7 @@
   \cleardoublepage
   \pagenumbering{arabic}}
 \newcommand\encircle[1]{
-  \tikz[baseline=(X.base)] 
+  \tikz[baseline=(X.base)]
   \node (X) [draw, shape=circle, inner sep=0] {\strut #1};}
 \title{PAL-1 Serial Interface Adapter}
 \author{Plastic Objects Limited}
@@ -60,7 +61,7 @@
 \centering
 \includegraphics[scale=0.25]{figures/serial.png}
 \end{figure}
-\maketitle			
+\maketitle
 \end{titlepage}
 \clearpage
 \noindent Published by \textbf{Plastic Objects Limited} \\
@@ -78,14 +79,15 @@ All trademarks, logos and brand names are the property of their respective owner
 \thanks{PAL-1 and the PAL-1 logo used with kind permission of Liu Ganning.}
 \clearpage
 \tableofcontents
+\listoffigures
 \cleardoublepage
 \chapter*{Introduction}
-\addcontentsline{toc}{chapter}{Introduction}  
-The PAL-1 Serial Interface Adapter is an expansion module for the PAL\nobreakdash-1 system\cite{ganning1} based on the Motorola MC6850 Asynchronous Communications Interface Adapter (ACIA)\cite{motorola1}. The design borrows from a homebrew project in CPC Schneider International magazine\cite[pp. 88-92]{cpc1}. 
+\addcontentsline{toc}{chapter}{Introduction}
+The PAL-1 Serial Interface Adapter is an expansion module for the PAL\nobreakdash-1 system\cite{ganning1} based on the Motorola MC6850 Asynchronous Communications Interface Adapter (ACIA)\cite{motorola1}. The design borrows from a homebrew project in CPC Schneider International magazine\cite[pp. 88--92]{cpc1}.
 
-The MC6850 ACIA manages data formatting and asynchronous data communications control. Data from the PAL-1 is serially transmitted and received by the ACIA's asynchronous data interface, with appropriate formatting and error checking. The functional configuration of the ACIA may be programmed during system initialisation. It includes variable word lengths, clock division ratios, and interrupt conditions giving full control over serial communications\cite[p.11]{motorola2}.  
+The MC6850 ACIA manages data formatting and asynchronous data communications control. Data from the PAL-1 is serially transmitted and received by the ACIA's asynchronous data interface, with appropriate formatting and error checking. The functional configuration of the ACIA may be programmed during system initialisation. It includes variable word lengths, clock division ratios, and interrupt conditions giving full control over serial communications\cite[p. 11]{motorola2}.
 
-Unlike the on-board PAL-1 serial interface, the PAL-1 Serial Interface Adapter provides hardware flow control at rates from 150 to 38400 baud. Serial connections may be made at either TTL or RS-232 levels, allowing users to connect to other devices with either a TTL-to-USB adaptor or using a 9 pin D-sub serial cable. 
+Unlike the on-board PAL-1 serial interface, the PAL-1 Serial Interface Adapter provides hardware flow control at rates from 150 to 38400 baud. Serial connections may be made at either TTL or RS-232 levels, allowing users to connect to other devices with either a TTL-to-USB adaptor or using a 9 pin D-sub serial cable.
 
 \mainmatter
 \chapter{Getting Started}
@@ -117,7 +119,7 @@ The PAL-1 Serial Interface Adapter can be assembled with or without a MAX232 dua
 \centering
 \begin{tabular}{@{\extracolsep{4pt}}cl@{}}
 \hline
-Parts & Description \\ 
+Parts & Description \\
 \cline{1-1}\cline{2-2}
 C9 - C12 & 1.0uF capacitors \\
 J2 & DB-9 serial connector \\
@@ -134,13 +136,13 @@ U6 & MAX232 dual transmitter / dual receiver \\
 \subsection*{Base I/O address}
 The MC6850 ACIA has an 8-bit  data bus, which is memory mapped on the PAL-1 system. The base address at which it is mapped can be configured using jumper JP1, as shown in Table \ref{tab:addresses}.
 
-The default base address (and the address used in all examples in this manual) is \$16E8. In situations where multiple serial interface adapters are installed in the same PAL-1 system, each board must have a unique base address. 
+The default base address (and the address used in all examples in this manual) is \$16E8. In situations where multiple serial interface adapters are installed in the same PAL-1 system, each board must have a unique base address.
 
 \begin{table}[h]
 \centering
 \begin{tabular}{@{\extracolsep{4pt}}cc@{}}
 \hline
-JP1 pins & Address \\ 
+JP1 pins & Address \\
 \cline{1-1}\cline{2-2}
 1-2 & \$16E8 ($5864_{10}$) \\
 2-3 & \$16EA ($5866_{10}$) \\
@@ -158,9 +160,9 @@ The MC6850 ACIA uses an external clock from which data transmission rates are de
 \begin{tabular}{@{\extracolsep{4pt}}rccccccccccc@{}}
 \hline
 &\multicolumn{9}{c}{JP2 pins}&\multicolumn{2}{c}{Baud rates}\\
-Clock & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & Min & Max \\ 
+Clock & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & Min & Max \\
  \cline{1-1}\cline{2-10}\cline{11-12}
-9600Hz & - & - & $\sqcap$ & - & $\sqcap$ & $\sqcap$ & - & - & $\sqcap$ & 150 & 9600 \\
+9600 Hz & - & - & $\sqcap$ & - & $\sqcap$ & $\sqcap$ & - & - & $\sqcap$ & 150 & 9600 \\
 19.2 kHz & - & $\sqcap$ & - & $\sqcap$ & $\sqcap$ & - & - & $\sqcap$ & - & 300 & 19,200 \\
 38.4 kHz & $\sqcap$ & - & $\sqcap$ & $\sqcap$ & - & - & $\sqcap$ & - & - & 600 & 38,400 \\
 \hline
@@ -181,29 +183,31 @@ Clock & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & Min & Max \\
 	\foreach \q in {9, ..., 1} {
 		\draw [fill=black] (\q*6+2.25,5.5) rectangle ++(1.5,1.5);
  		\draw [fill=black] (\q*6+2.25,10) rectangle ++(1.5,1.5);
-		\draw (3+\q*6, 0) node[scale=8,color=gray]{\q};   		
-  	}   	
+		\draw (3+\q*6, 16.5) node[scale=8,color=gray]{\q};
+  	}
   	\foreach \q in {2,4,5,8} {
-  		\draw [line width=6,color=black!55,line join=round] (\q*6+3.85,10) -- ++(0,1.6) -- ++(-1.7,0) -- ++(0,-6.2) -- ++(1.7,0) -- ++(0,1.6);  
+  		\draw [line width=6,color=black!55,line join=round] (\q*6+3.85,10) -- ++(0,1.6) -- ++(-1.7,0) -- ++(0,-6.2) -- ++(1.7,0) -- ++(0,1.6);
   		\draw [line width=1cm, color=black!80] (\q*6+1.2,4.5) rectangle ++(3.8,8);
   	}
-	\draw (1,5) node[scale=10]{JP2};   		 	
+  	\draw [line width=8] (7.5,-0.5) -- ++(3,0) -- ++(-1.5,2) -- cycle;
+	\draw (64,8.5) node[scale=12, rotate=-90]{JP2};
+%	\draw [-{Latex},line width=12,color=gray] (47,21) -- node[above=-1.5cm, scale=8,color=gray]{top of board} ++(20,0);
     \end{tikzpicture}
     }
-    \caption{Clock configuration example}
+    \caption{Clock set to 19.2 kHz.}
     \label{fig:clkconfig}
 \end{figure}
 
 \subsection*{Interrupts}
 \label{sec:configirq}
-Interrupts result from conditions in both the transmitter and receiver sections of the MC6850 ACIA. To enable interrupt handling on the PAL-1, pins \code{JP3} must be shunted. For details about ACIA interrupt processing, refer to the section on interrupts on page \pageref{sec:interrupts}.  
+Interrupts result from conditions in both the transmitter and receiver sections of the MC6850 ACIA. To enable interrupt handling on the PAL-1, pins \code{JP3} must be shunted. For details about ACIA interrupt processing, refer to the section on interrupts on page \pageref{sec:interrupts}.
 
 \subsection*{Data Terminal Ready}
 \label{sec:configdtr}
 The MC6850 ACIA does not provide a Data Terminal Ready (DTR) signal. While normally disconnected, the DTR signal can be set to active using \code{JP4} if required by the data communications equipment (DCE). Note that the DTR signal is only available on the RS-232 connector (see also page \pageref{sec:connectors}).
 
 \chapter{Using the Serial Interface Adapter}
-The MC6850 ACIA appears on the PAL-1 as two addressable memory locations (see table \ref{tab:registers}).  Internally, the ACIA has four registers. Of these, two are read-only, the Status and Receive Data registers. The remaining two registers are write-only, the Control and Transmit Data registers. 
+The MC6850 ACIA appears on the PAL-1 as two addressable memory locations (see table \ref{tab:registers}).  Internally, the ACIA has four registers. Of these, two are read-only, the Status and Receive Data registers. The remaining two registers are write-only, the Control and Transmit Data registers.
 
 \begin{table}[h]
 \centering
@@ -227,54 +231,22 @@ Address\tnote{1} & Access & ACIA Register \\
 \label{tab:registers}
 \end{table}
 
-Much of the information in this chapter is taken from the MC6850 datasheet\cite{motorola1}. Refer to this datasheet for further details
+Much of the information in this chapter is taken from the MC6850 datasheet\cite{motorola1}. Further details on the ACIA may be found in the MC6850 application note (AN-754)\cite[pp. 21--32]{motorola3}.
 
 \subsubsection*{\textit{Master Reset}}
 The \textit{master reset bits} (\code{CR0} and \code{CR1}) must be set immediately after power up to ensure the reset condition and to prepare for programming the ACIA functional configuration. After a master reset, the Control Register can be set to configure options, including clock divider ratios, word lengths, the number of stop and parity bits.
-
-\subsubsection*{\textit{Basic Usage}}
-The minimal steps required to send and receive data using the serial interface are:
-\clearpage
-\begin{enumerate}
-\item Master reset the ACIA
-\begin{lstlisting}[basicstyle=\footnotesize\ttfamily,frame=single]
-write &16E8, 3
-\end{lstlisting}
-\item Set communications parameters (e.g. no interrupts, 8 bits, 1 stop bit, 1200 baud)
-\begin{lstlisting}[basicstyle=\footnotesize\ttfamily,frame=single]
-write &16E8, 21
-\end{lstlisting}
-\item Send data when the Transmit Data Register Empty bit in the Status Register is set
-\begin{lstlisting}[basicstyle=\footnotesize\ttfamily,frame=single]
-do
-    status := read &16E8
-until (status & 2) == 1
-write &16E9, `A`
-\end{lstlisting}
-\begin{minipage}{\linewidth}
-\item Read data when the Receive Data Register Full bit in the Status Register is set
-\begin{lstlisting}[basicstyle=\footnotesize\ttfamily,frame=single]
-do
-    status := read &16E8
-until (status & 1) == 1
-data := read &16E9
-\end{lstlisting}
-\end{minipage}
-\end{enumerate}
-
-\input{sia-diagram.tex}
 
 \section*{ACIA Control Register}
 The MC6850 ACIA Control Register is used to configure serial communication parameters, including baud rates, word lengths, and transmission control parameters. The format of the 8-bit write only register is shown in figure \ref{fig:control}.
 
 \begin{figure}[H]
 \renewcommand{\arraystretch}{1.2}
-\centering	
+\centering
 \tcbox{
 \begin{tabular}{@{\extracolsep{4pt}}cccccccc@{}}
 	CR7 & CR6 & CR5 & CR4 & CR3 & CR2 & CR1 & CR0 \\
 	\cline{1-1}\cline{2-3}\cline{4-6}\cline{7-8}
-	IQR Enable & \multicolumn{2}{c}{Transmit Ctrl} &  \multicolumn{3}{c}{Word Select} & \multicolumn{2}{c}{Counter Divide}  
+	IQR Enable & \multicolumn{2}{c}{Transmit Ctrl} &  \multicolumn{3}{c}{Word Select} & \multicolumn{2}{c}{Counter Divide}
 \end{tabular}}
 \caption{ACIA Control Register}
 \label{fig:control}
@@ -289,7 +261,7 @@ The \textit{counter divide bits} (\code{CR0} and \code{CR1}) determine the divid
 	\begin{tabular}{@{\extracolsep{4pt}}cccccc@{}}
 		\hline
 		& & & \multicolumn{3}{c}{Baud rate\tnote{1}} \\
-		CR1 & CR0 & Function & 9600Hz & 19.2kHz & 38.4kHz \\ 
+		CR1 & CR0 & Function & 9600Hz & 19.2kHz & 38.4kHz \\
 		\cline{1-2}\cline{3-3}\cline{4-6}
 		0 & 0 & $\div 1$ & 9600 & 19200  & 38400  \\
 		0 & 1 & $\div 16$ & 600 & 1200 & 2400  \\
@@ -311,7 +283,7 @@ The \textit{word select bits} (\code{CR4},\code{CR3} and \code{CR2}) are used to
 	\centering
 	\begin{tabular}{@{\extracolsep{4pt}}cccccc@{}}
 		\hline
-		CR4 & CR3 & CR2 & Word Length & Parity & Stop bits \\ 
+		CR4 & CR3 & CR2 & Word Length & Parity & Stop bits \\
 		\cline{1-3}\cline{4-6}
 		0 & 0 & 0 & 7 & even & 2 \\
 		0 & 0 & 1 & 7 & odd & 2 \\
@@ -338,7 +310,7 @@ The \textit{transmitter control bits} (\code{CR5} and \code{CR6}) are used to co
 	\centering
 	\begin{tabular}{@{\extracolsep{4pt}}cccc@{}}
 		\hline
-		CR5 & CR6 & $\overline{RTS}$ & Transmitter IRQ \\ 
+		CR5 & CR6 & $\overline{RTS}$ & Transmitter IRQ \\
 		\cline{1-2}\cline{3-3}\cline{4-4}
 		0 & 0 & low & disabled \\
 		0 & 1 & low &  enabled \\
@@ -359,14 +331,14 @@ The status of the MC7850 ACIA may be read from the ACIA Status Register. The inf
 
 \begin{figure}[H]
 \renewcommand{\arraystretch}{1.2}
-\centering	
+\centering
 \tcbox{
 \begin{tabular}{@{\extracolsep{4pt}}cccccccc@{}}
 	SR7 & SR6 & SR5 & SR4 & SR3 & SR2 & SR1 & SR0 \\
 	\cline{1-1}\cline{2-2}\cline{3-3}\cline{4-4}\cline{5-5}\cline{6-6}\cline{7-7}\cline{8-8}
-	\small{$\overline{IRQ}$} & \small{PE} & \small{OVRN} & \small{FE} & \small{$\overline{CTS}$} &  \small{$\overline{DCD}$} & \small{TDRE} & \small{RDRF} 
+	\small{$\overline{IRQ}$} & \small{PE} & \small{OVRN} & \small{FE} & \small{$\overline{CTS}$} &  \small{$\overline{DCD}$} & \small{TDRE} & \small{RDRF}
 \end{tabular}}
-\caption{ACIA Control Register}
+\caption{ACIA Status Register}
 \end{figure}.
 
 \subsection*{Receive Data Register Full (RDRF)}
@@ -391,28 +363,135 @@ A receive overrun error indicates that one or more characters in the data stream
 The \textit{parity error bit} (\code{SR6}) is set when the number of highs (ones) in the character does not agree with the preset odd or even parity. If no parity is selected then both the transmitter parity generator output and receiver parity check results are inhibited.
 
 \subsection*{Interrupt Request ($\overline{IQR}$)}
-The \textit{interrupt request bit} (\code{SR47}) indicates that an interrupt has occurred. This status bit may be set by any enabled interrupt condition. It is cleared when the Receive Data Register is read, or when a character is written to the Transmit Data Register.
+The \textit{interrupt request bit} (\code{SR7}) indicates that an interrupt has occurred. This status bit may be set by any enabled interrupt condition. It is cleared when the Receive Data Register is read, or when a character is written to the Transmit Data Register.
+
+\input{sia-diagram.tex}
+
+\clearpage
+\section*{Hardware flow control}
+Devices process data at different rates. When transferring data from a faster device to a slower one, data may be lost unless the slower device is able to control the flow of data. Such flow control may be implemented using different methods. When using \textit{software flow control}, special characters are sent via the data lines to pause and resume the flow of data. Alternatively, \textit{hardware flow control} signals the pausing and resumption of data flows using additional wire connections between the communicating devices. Hardware flow control may be implemented in two different ways, as discussed below.
+
+\subsubsection*{Hardware flow control}
+To implement hardware flow control, RTS (\textit{Request to Send}) and CTS (\textit{Clear to Send}) need to be cross-coupled (as shown in figure \ref{fig:flowctl}). Each device uses RTS to indicate that it is ready to accept data. Before sending any data a device needs to check CTS to ensure that the remote device is in a state to receive data.
+
+\vspace{1em}
+\begin{figure}[H]
+	\begin{center}
+		\def\radius{6mm}
+		\scalebox{0.4}{
+			\begin{tikzpicture}[font=\sffamily]
+				\draw[line width=1, fill=black!60] (0,0) rectangle ++(10,10);
+				\draw[line width=1, fill=black!60] (20,0) rectangle ++(10,10);
+				\draw (5,9) node[scale=2.75,black!5]{DEVICE A};
+				\draw (25,9) node[scale=2.75,black!5]{DEVICE B};
+
+				\foreach \p [count=\q from 0] in {{GND},{RTS},{CTS},{RX},{TX}}{
+					\node (rect) at (10, 1+\q*1.7) [draw,thick,minimum width=1cm,minimum height=1cm,fill=white,label={[white,scale=2] left:\p}] (l-\p){};
+					\node (rect) at (20, 1+\q*1.7) [draw,thick,minimum width=1cm,minimum height=1cm,fill=white,label={[white,scale=2] right:\p}] (r-\p){};
+				}
+
+				\draw [-{Latex[length=1cm, round]},line width=1mm,name path=line 1] (r-TX) -- (l-RX);
+				\path[name path=line 2] (l-TX) -- (r-RX);
+				\path [name intersections={of = line 1 and line 2, name=i}];
+				\coordinate (S) at (i-1);
+				\path[name path=c1] (S) circle(\radius);
+				\path [name intersections={of = c1 and line 2, name=i}];
+				\coordinate (I1)  at (i-2);
+				\coordinate (I2)  at (i-1);
+				\draw[line width=1mm] (l-TX) -- (I2);
+				\draw[-{Latex[length=1cm, round]},line width=1mm] (I1) -- (r-RX);
+				\tkzDrawArc[line width=1mm](S,I1)(I2);
+
+				\draw [-{Latex[length=1cm, round]},line width=1mm,name path=line 3] (r-CTS) -- (l-RTS);
+				\path[name path=line 4] (l-CTS) -- (r-RTS);
+				\path [name intersections={of = line 3 and line 4, name=i}];
+				\coordinate (T) at (i-1);
+				\path[name path=c2] (T) circle(\radius);
+				\path [name intersections={of = c2 and line 4, name=i}];
+				\coordinate (I3)  at (i-1);
+				\coordinate (I4)  at (i-2);
+				\draw[line width=1mm] (l-CTS) -- (I3);
+				\draw[-{Latex[length=1cm, round]},line width=1mm] (I4) -- (r-RTS);
+				\tkzDrawArc[line width=1mm](T,I4)(I3);
+
+				\draw [line width=1mm] (l-GND) -- (r-GND);
+
+			\end{tikzpicture}
+		}
+		\captionof{figure}{Hardware flow control.}
+		\label{fig:flowctl}
+	\end{center}
+\end{figure}
+
+A device will keep its RTS line asserted while it is ready to accept data. To ensure no data is lost, a device needs to negate RTS well before its receive buffer is full. No data should be sent to a device until RTS is asserted.
+
+This implementation allows for bi-directional flow control; either device may request that data transmission is halted or resumed.
+
+\subsubsection*{Legacy hardware flow control}
+In legacy systems hardware flow control is uni-directional, with the \textit{Data Terminal Equipment} (DTE) managing the rate of flow to and from the \textit{Data Communication Equipment} (DCE). In such systems the RTS (\textit{Request to Send}) and CTS (\textit{Clear to Send}) connections are wired straight through, rather than being cross-coupled (see figure \ref{fig:legacyctl}).
+
+\vspace{1em}
+\def\radius{6mm}
+\begin{figure}[H]
+	\begin{center}
+		\scalebox{0.4}{
+			\begin{tikzpicture}[font=\sffamily]
+				\draw[line width=1, fill=black!60] (0,0) rectangle ++(10,10);
+				\draw[line width=1, fill=black!60] (20,0) rectangle ++(10,10);
+				\draw (5,9) node[scale=2.75,black!5]{DTE};
+				\draw (25,9) node[scale=2.75,black!5]{DCE};
+
+				\foreach \p [count=\q from 0] in {{GND},{RTS},{CTS},{RX},{TX}}{
+					\node (rect) at (10, 1+\q*1.7) [draw,thick,minimum width=1cm,minimum height=1cm,fill=white,label={[white,scale=2] left:\p}] (l-\p){};
+					\node (rect) at (20, 1+\q*1.7) [draw,thick,minimum width=1cm,minimum height=1cm,fill=white,label={[white,scale=2] right:\p}] (r-\p){};
+				}
+
+				\draw [-{Latex[length=1cm, round]},line width=1mm,name path=line 1] (r-TX) -- (l-RX);
+				\path[name path=line 2] (l-TX) -- (r-RX);
+				\path [name intersections={of = line 1 and line 2, name=i}];
+				\coordinate (S) at (i-1);
+				\path[name path=c1] (S) circle(\radius);
+				\path [name intersections={of = c1 and line 2, name=i}];
+				\coordinate (I1)  at (i-2);
+				\coordinate (I2)  at (i-1);
+				\draw[line width=1mm] (l-TX) -- (I2);
+				\draw[-{Latex[length=1cm, round]},line width=1mm] (I1) -- (r-RX);
+				\tkzDrawArc[line width=1mm](S,I1)(I2);
+
+				\draw [line width=1mm,{Latex[length=1cm, round]}-] (l-CTS) -- (r-CTS);
+				\draw [line width=1mm,-{Latex[length=1cm, round]}] (l-RTS) -- (r-RTS);
+				\draw [line width=1mm] (l-GND) -- (r-GND);
+
+			\end{tikzpicture}
+		}
+		\caption{Legacy hardware flow control.}
+		\label{fig:legacyctl}
+	\end{center}
+\end{figure}
+
+When it wants to transmit data, the DTE asserts RTS. If the DCE is in a state to accept data, it responds by asserting CTS. Transmission continues until the DCE negates CTS. When the DTE has completed transmitting data it negates RTS.
+
 
 \chapter{Sample Code}
 
-Programming the PAL-1 Serial Interface Adapter simply requires the ability to write to and read from the mapped I/O address. Many programming languages provide statements to achieve this, including the \code{POKE} and \code{PEEK} statements in BASIC, and \code{C!} and \code{C@} in Forth. 
+Programming the PAL-1 Serial Interface Adapter simply requires the ability to write to and read from the mapped I/O address. Many programming languages provide statements to achieve this, including the \code{POKE} and \code{PEEK} statements in BASIC, and \code{C!} and \code{C@} in Forth.
 
 Note that all examples included below use the default base address (ie. \$16E8, $5864_{10}$).  Further examples may be found on Github at \url{https://github.com/dimitrit/pal1serial}.
 
 \subsection*{BASIC}
 
-The following example was taken from the `\textit{Do-It-Yourself RS-232 Interface}' article in the 1986 Special Edition, Issue 3 of CPC Schneider International magazine\cite[pp. 88-92]{cpc1}. Because the MC6850 ACIA is memory mapped on the PAL-1 all \code{OUT} statements have been replaced with \code{POKE} statements, and \code{IN} with \code{PEEK}. Note that this example requires loopback connections from \code{TXD} to \code{RXD}, and from \code{RTS} to \code{CTS}.
+The following example was taken from the `\textit{Do-It-Yourself RS-232 Interface}' article in the 1986 Special Edition, Issue 3 of CPC Schneider International magazine\cite[pp. 88--92]{cpc1}. Because the MC6850 ACIA is memory mapped on the PAL-1 all \code{OUT} statements have been replaced with \code{POKE} statements, and \code{IN} with \code{PEEK}. Note that this example requires loopback connections from \code{TXD} to \code{RXD}, and from \code{RTS} to \code{CTS}.
 
-\lstinputlisting[basicstyle=\footnotesize\ttfamily,caption={RS-232 Test Program},captionpos=b,
+\lstinputlisting[basicstyle=\footnotesize\ttfamily,caption={RS-232 test program},captionpos=b,
 	language={[Visual]Basic},label={lst:sample1},frame=single]{../examples/basic/TEST.BAS}
 
 \subsection*{6502 assembly language}
 
-The assembly language example below repeatedly writes a short message to the serial port. It checks that the Transmit Data Register Empty bit is set before sending a character.
+The assembly language example shown below implements a simple terminal application. Characters read from the TTY device connected to the PAL-1 are sent to the Serial Adapter, and vice versa. As this example uses interrupts to process received characters, \code{JP3} on the Serial Adapter Interface must be closed (see also page \pageref{sec:configirq}).
 
-\lstinputlisting[basicstyle=\footnotesize\ttfamily,caption={Hello World!},
-	captionpos=b,language={[Motorola68k]Assembler}, 
-	label={lst:sample2},frame=single]{../examples/asm/hello.a65}
+\lstinputlisting[basicstyle=\footnotesize\ttfamily,caption={MiniTerm program listing},
+	captionpos=b,language={[Motorola68k]Assembler},
+	label={lst:sample2},frame=single]{../examples/asm/miniterm.a65}
 
 \appendix
 
@@ -425,11 +504,11 @@ The pin-out of the RS-232 D-Sub 9-pin male connector (J2) follows the standard c
   \begin{center}
   \scalebox{0.2}{
     \begin{tikzpicture}[font=\sffamily]
-    	\draw[rounded corners=2cm,line width=6mm] (0, 0) rectangle (25,10) {};    	
-    	
+    	\draw[rounded corners=2cm,line width=6mm] (0, 0) rectangle (25,10) {};
+
     	\draw[line width=4mm] (3,5) circle (1.4cm);
     	\draw[line width=4mm] (22,5) circle (1.4cm);
-    	
+
     	\draw[line width=1mm] (7,8) -- (18,8);
     	\draw[line width=1mm] (8,2) -- (17,2);
     	\draw[line width=1mm] (6,7) -- (7,3);
@@ -448,7 +527,7 @@ The pin-out of the RS-232 D-Sub 9-pin male connector (J2) follows the standard c
     	\draw[line width=1mm] (17,1.5) to[out=0,in=-102,distance=30] (18.5,3);
     	\draw[line width=1mm] (19.5,7) to[out=78,in=0,distance=30] (18,8.5);
 
-	\foreach \p\k [count=\q from 0] in {{}/{},{RXD}/{RTS},{TXD}/{CTS},{DTR}/{},{GND}/{}} { 
+	\foreach \p\k [count=\q from 0] in {{}/{},{RXD}/{RTS},{TXD}/{CTS},{DTR}/{},{GND}/{}} {
 		\draw[line width=1mm] (8.4+\q*2,6.2) circle (4mm);
 		\ifthenelse{\q<4}{\draw[line width=1mm] (9.4+\q*2,3.8) circle (4mm);	}{}
 		\foreach \x in \p {
@@ -476,14 +555,14 @@ The pin-out of the RS-232 D-Sub 9-pin male connector (J2) follows the standard c
 	\begin{threeparttable}
 	\begin{tabular}{@{\extracolsep{4pt}}cll@{}}
 		\hline
-		Pin & Signal & Description \\ 
+		Pin & Signal & Description \\
 		\cline{1-1}\cline{2-2}\cline{3-3}
 		1 & {\color{gray}NC} & {\color{gray}Not Connected} \\
 		2 & RXD & Receive Data  \\
 		3 & TXD & Transmit Data \\
 		4 & DTR & Data Terminal Ready\tnote{1}  \\
 		5 & GND & Ground \\
-		6 & {\color{gray}NC} & {\color{gray}Not Connected} \\ 
+		6 & {\color{gray}NC} & {\color{gray}Not Connected} \\
 		7 & RTS & Request to Send  \\
 		8 & CTS\# & Clear to Send  \\
 		9 & {\color{gray}NC} & {\color{gray}Not Connected}  \\
@@ -500,7 +579,7 @@ The pin-out of the RS-232 D-Sub 9-pin male connector (J2) follows the standard c
 \clearpage
 \subsection*{TTL Pin Header}
 \label{sec:ttlpins}
-The PAL-1 Serial Adapter TTL pin header (J3) allows 6-way FTDI based USB to TTL converters to be directly connected\cite[pp. 11-12]{ftdi1}.  \textbf{Be sure to check the USB to TTL converter voltage levels and signals before connecting as incorrect voltage and/or incompatible signals may result in damage to the PAL-1 Serial Adapter.}
+The PAL-1 Serial Adapter TTL pin header (J3) allows 6-way FTDI based USB to TTL converters to be directly connected\cite[pp. 11--12]{ftdi1}.  \textbf{Be sure to check the USB to TTL converter voltage levels and signals before connecting as incorrect voltage and/or incompatible signals may result in damage to the PAL-1 Serial Adapter.}
 
 \input{sia-connector.tex}
 
@@ -508,7 +587,7 @@ The PAL-1 Serial Adapter TTL pin header (J3) allows 6-way FTDI based USB to TTL 
 	\centering
 	\begin{tabular}{@{\extracolsep{4pt}}cllcl@{}}
 		\hline
-		Pin & Signal & Description & TTL-232R-5V & Signal\\ 
+		Pin & Signal & Description & TTL-232R-5V & Signal\\
 		\cline{1-3}\cline{4-5}
 		1 & GND & Ground & Black & GND \\
 		2 & RTS\# & Request to Send & Brown & CTS\# \\
@@ -527,7 +606,7 @@ The PAL-1 Serial Adapter TTL pin header (J3) allows 6-way FTDI based USB to TTL 
 \chapter{Board layout}
 \begin{figure}[h!]
 \centering
-\includegraphics[scale=0.65]{figures/serial-brd-1.0a.png}
+\includegraphics[scale=2]{figures/serial-brd-1.0a.png}
 \end{figure}
 
 \input{bom-v1.0a.tex}
