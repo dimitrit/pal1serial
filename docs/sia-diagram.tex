@@ -29,7 +29,7 @@
 	\draw[dash pattern=on 10pt off 10pt](61,12) rectangle ++(6.25,50)
 			node[pos=0.5,scale=4,text width=1.5cm,align=center] {RS-232 Drivers/ Receivers};
 
-	\draw[-{Latex[scale=5]}](62,15) -- ++(-15,0);
+	\draw[arrows={Circle[open,scale=6,line width=2] -Latex[scale=5]}](62.25,15) -- ++(-15.25,0);
 	\draw[arrows={Latex[scale=5]-Latex[scale=5]}](52,5.5) -- ++(3.5,0) -- ++(0,16.5);
 	\draw[arrows={Latex[scale=5]-Latex[scale=5]}](50.5,40) -- ++(0,2) -- ++(-20.5,0);
 	\draw[arrows={Latex[scale=5]-Latex[scale=5]}](49.50,64) -- ++(0,-4.5) -- ++(-2.5,0);
@@ -62,7 +62,7 @@
 	\draw[{Circle[open,scale=6,line width=2]}-](30,31.5) -- ++(31.75,0);
 	\draw[arrows={Circle[open,scale=6,line width=2]-Latex[scale=5]}](50.5,35) -- ++(0,-26) --
 			++(-67.5,0) -- ++(0,21);
-	\draw[{Circle[open,scale=6,line width=2]}-](46,46.5) -- ++(16,0);
+	\draw[{Circle[open,scale=6,line width=2]}-{Circle[open,scale=6,line width=2]}](46,46.5) -- ++(16.25,0);
 
 	\draw (35,15) node [draw,single arrow, minimum height=5cm, minimum width=4cm,
 	                             anchor=west,line width=1,rotate=180] {};
@@ -82,11 +82,11 @@
 	\draw[line width=1](-13,39.5) -- ++(2,2) -- ++(0,-1.25) -- ++(11,0) -- ++(0,1.25) -- ++(2,-2) --
 			++(-2,-2) -- ++(0,1.25) -- ++(-11,0) -- ++(0,-1.25) -- cycle;
 
-	\draw[line width=1](61.75,46.5) -- ++(4,2) -- ++(0,-4) -- cycle;
-	\draw[arrows={Circle[open,scale=6,line width=2] Latex[scale=5]-}](65.75,46.5) -- ++(4,0);
+	\draw[line width=1](62.25,46.5) -- ++(4,2) -- ++(0,-4) -- cycle;
+	\draw[arrows={Latex[scale=5]-}](66.25,46.5) -- ++(4,0);
 
-	\draw[line width=1](61.75,15) -- ++(4,2) -- ++(0,-4) -- cycle;
-	\draw[arrows={Circle[open,scale=6,line width=2] Latex[scale=5]-}](65.75,15) -- ++(4,0);
+	\draw[line width=1](62.25,15) -- ++(4,2) -- ++(0,-4) -- cycle;
+	\draw[arrows={Latex[scale=5]-}](66.25,15) -- ++(3.5,0);
 
 	\draw[line width=1](61.75,59) -- ++(4,-2) -- ++(-4,-2) -- cycle;
 	\draw[arrows={Circle[open,scale=6,line width=2]-Latex[scale=5]}](65.75,57) -- ++(4,0);
