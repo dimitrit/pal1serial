@@ -94,7 +94,7 @@ Unlike the on-board PAL-1 serial interface, the PAL-1 Serial Interface Adapter p
 \section*{Board assembly}
 Before assembling your PAL-1 Serial Interface Adapter board check the package contents against the Bill of Materials on page \pageref{sec:bom}, and contact your distributor as soon as possible if any items are missing.
 
-No specialist tools are required for assembling the board, though care must be taken when handling ESD sensitive components, especially the ICs. Before inserting the ICs into their sockets, check the board for dry joints and solder bridges. Also be sure to pay special attention to the orientation of the ICs, ensuring pin 1 of each IC is correctly aligned.
+No specialist tools are required for assembling the board, though care must be taken when handling ESD sensitive components, especially the ICs. Before inserting the ICs into their sockets, check the board for dry joints and solder bridges. Also be sure to pay special attention to the orientation of the ICs, ensuring pin 1 of each IC is correctly aligned. Refer to the board layout on page \pageref{fig:layout} for the orientation of ICs, diodes and electrolytic capacitors.
 
 \awesomebox[red]{2pt}{\faHandPaper}{red}{To prevent damage to your system, \textit{always} power off your PAL-1 before installing or removing the PAL-1 Serial Interface Adapter board. Ensure that the pins are correctly aligned when inserting the board into the PAL-1 motherboard or when directly connecting it to the PAL-1 expansion port using a 40-pin IDC cable.}
 
@@ -480,7 +480,7 @@ Note that all examples included below use the default base address (ie. \$16E8, 
 
 \subsection*{BASIC}
 
-The following example was taken from the `\textit{Do-It-Yourself RS-232 Interface}' article in the 1986 Special Edition, Issue 3 of CPC Schneider International magazine\cite[pp. 88--92]{cpc1}. Because the MC6850 ACIA is memory mapped on the PAL-1 all \code{OUT} statements have been replaced with \code{POKE} statements, and \code{IN} with \code{PEEK}. Note that this example requires loopback connections from \code{TXD} to \code{RXD}, and from \code{RTS} to \code{CTS}.
+The following example was taken from the `\textit{Do-It-Yourself RS-232 Interface}' article in the 1986 Special Edition, Issue 3 of CPC Schneider International magazine\cite[pp. 88--92]{cpc1}. Because the MC6850 ACIA is memory mapped on the PAL-1 all \code{OUT} statements have been replaced with \code{POKE} statements, and \code{IN} with \code{PEEK}. Note that this example requires loopback connections from \code{TXD} to \code{RXD}, and from \code{RTS} to \code{CTS}. Refer to \textit{\nameref{sec:connectors}} on page \pageref{sec:connectors} for details on which pins to short.
 
 \lstinputlisting[basicstyle=\footnotesize\ttfamily,caption={RS-232 test program},captionpos=b,
 	language={[Visual]Basic},label={lst:sample1},frame=single]{../examples/basic/TEST.BAS}
@@ -607,6 +607,7 @@ The PAL-1 Serial Adapter TTL pin header (J3) allows 6-way FTDI based USB to TTL 
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=2]{figures/serial-brd-1.0a.png}
+\label{fig:layout}
 \end{figure}
 
 \input{bom-v1.0a.tex}
